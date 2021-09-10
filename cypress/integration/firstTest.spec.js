@@ -54,3 +54,5 @@ it.only('By using Get with Find and Eq', () => {
     cy.visit('https://docs.cypress.io/api/commands/eq#Syntax')
     cy.get('nav').find('ul').find('li').find('a').eq(1)
 });
+
+///fghgfdfghfdfg
