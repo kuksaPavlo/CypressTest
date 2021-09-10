@@ -48,7 +48,7 @@ it('Using get with Find and Eq', () => {
     cy.visit('https://next.privat24.ua/deposit')
     cy.get('tbody').find('td').find('div').find('button').eq(0)
 });
-//comment
+//commentddddd
 it.only('By using Get with Find and Eq', () => {
     cy.viewport(1800, 700)
     cy.visit('https://docs.cypress.io/api/commands/eq#Syntax')
