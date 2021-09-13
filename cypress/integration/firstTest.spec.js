@@ -20,3 +20,5 @@ it.only('', () => {
     cy.visit('https://next.privat24.ua/mobile?lang=en')
     cy.get('footer').contains('Regulations and tariffs')
 })
+
+//hghg
