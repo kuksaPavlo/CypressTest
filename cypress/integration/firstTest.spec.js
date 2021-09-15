@@ -19,7 +19,7 @@ it.only('replanishmentOf Ukrain mobile phone number', () => {
         mobileReplanishment.checkReceiverAmount('1')
         mobileReplanishment.checkPaymentCarrency("UAH") 
 })
-//
+//tetetete222
 it('Money tramsfer between foreign cards', () => {
     cy.visit('https://next.privat24.ua/money-transfer/card/?lang=en')
 
