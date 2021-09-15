@@ -41,13 +41,14 @@ it('Money tramsfer between foreign cards', () => {
     transfers.checkComment('Cypress test')
 })
 //REQUESTS POST https://jsonplaceholder.typicode.com/guide/
+//HTTP GET
 it('Example sending requests', () => {
     cy.request('https://next.privat24.ua')
         .then((response) => {
             console.log(response);
         })
 })
-
+//HTTP POST with verification
 it.only('Example sending POST request', () => {
 
     const requestBody = {
