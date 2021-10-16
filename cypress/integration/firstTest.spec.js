@@ -5,21 +5,57 @@
 import { mobileReplanishment } from "../support/pages/mobileReplanishment"
 import { transfers } from "../support/pages/transfers"
 import { basePage, BasePage } from "../support/pages/basePage"
+import { archivePage } from "../support/pages/archive"
 
-it('replanishmentOf Ukrain mobile phone number', () => {
 
-    basePage.open('https://next.privat24.ua/mobile/?lang=en')
-    mobileReplanishment.typePhoneNumber('939034410')
-    basePage.typeAmount('1')
-    basePage.typeDebitCardData('5309233034765085', '0124', '891')
-    cy.wait(3000)
-    mobileReplanishment.typeDebitNameSername('firstName', 'LastName')
-    basePage.submitPayment()
-    mobileReplanishment.checkDebitCard('5309 **** **** 5085')
-    mobileReplanishment.checkDebitAmount('1')
-    mobileReplanishment.checkDebitAmountAndCommission('2')
-    mobileReplanishment.checkReceiverAmount('1')
-    mobileReplanishment.checkPaymentCarrency("UAH")
+beforeEach('setup success response with stub', ()=> {
+    cy.intercept('https://next.privat24.ua/api/p24/pub/confirm/check?', {
+        fixture: "confirmResponse/success.json",
+    });
+
+    
+})
+
+it('check error state of payment in the archive | publick session',() => {
+    cy.intercept('https://next.privat24.ua/api/p24/pub/archive', {
+        fixture: "archiveResponse/error.json",
+    });
+
+    basePage.open('https://next.privat24.ua?lang=en');
+    archivePage.selectArchiveMenu()
+    
+});
+
+it.skip('check success state of payment in the archive | publick session',() => {
+    cy.intercept('https://next.privat24.ua/api/p24/pub/archive', {
+        fixture: "archiveResponse/success.json",
+    });
+
+    basePage.open('https://next.privat24.ua?lang=en');
+    archivePage.selectArchiveMenu()
+    
+});
+
+
+
+
+it.skip('replanishmentOf Ukrain mobile phone number', () => {
+
+    basePage.open('https://next.privat24.ua/mobile/?lang=en');
+    mobileReplanishment.typePhoneNumber('686979712');
+    basePage.typeAmount('1');
+    basePage.typeDebitCardData('5309233034765085', '0124', '891');
+    cy.wait(3000);
+    mobileReplanishment.typeDebitNameSername('firstName', 'LastName');
+    basePage.submitPayment();
+    mobileReplanishment.checkDebitCard('5309 **** **** 5085');
+    mobileReplanishment.checkDebitAmount('1');
+    mobileReplanishment.checkDebitAmountAndCommission('2');
+    mobileReplanishment.checkReceiverAmount('1');
+    mobileReplanishment.checkPaymentCarrency("UAH");
+    cy.contains('Confirm')
+        .click();
+
 })
 //tetetete222
 it.skip('Money tramsfer between foreign cards', () => {
@@ -74,17 +110,17 @@ it.skip('Example sending POST request', () => {
         body: requestBody,
         headers: headersBody,
     }).then((response) => {
-            expect(response).to.have.property('status').to.equal(200)
-            expect(response.body).to.have.property('status').to.equal('success')
-            expect(response.body.data).to.have.property('amount').to.equal('50.0')
-            // expect(response.body.data[0 or iterator i]).to.have.property('amount').to.equal('50.0')
+        expect(response).to.have.property('status').to.equal(200)
+        expect(response.body).to.have.property('status').to.equal('success')
+        expect(response.body.data).to.have.property('amount').to.equal('50.0')
+        // expect(response.body.data[0 or iterator i]).to.have.property('amount').to.equal('50.0')
 
-            console.log(response)
+        console.log(response)
     });
 });
 ////Example HTTP POST request with should verification of response
 
-it('Example sending POST request', () => {
+it.skip('Example sending POST request', () => {
 
     const requestBody = {
         action: "info",
@@ -108,9 +144,9 @@ it('Example sending POST request', () => {
         url: "https://next.privat24.ua/api/p24/pub/mobipay",
         body: requestBody,
         headers: headersBody,
-    }).its('body').should('contain',{
-        status:'success'
-    }).its('data').should('contain',{
+    }).its('body').should('contain', {
+        status: 'success'
+    }).its('data').should('contain', {
         status: 'ok'
     })
 });
